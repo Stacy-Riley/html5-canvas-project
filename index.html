@@ -7,6 +7,30 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  const canvas = document.querySelector('#draw');
+  
+  //Context is where we will be drawing:
+  const ctx = canvas.getContext('2d');
+
+//Resize canvas so that it is the exact same size as the window:
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+
+//Code the line styles here:
+ctx.strokeStyle = '#BADASS';
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+
+//This allows the mouse to move around without drawing, when mouse button is pressed
+//a line begins and when it is released the line ends:
+let isDrawing = false;
+
+//These 2 lines show where to start and end the line:
+let lastX = 0;
+let lastY = 0;
+
+
 </script>
 
 <style>
