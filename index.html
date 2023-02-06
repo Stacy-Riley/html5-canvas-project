@@ -7,20 +7,25 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  
   const canvas = document.querySelector('#draw');
   
-  //Context is where we will be drawing:
+  //The drawing doesn't happen on the canvas element
+  //The Context element is where we will be drawing:
   const ctx = canvas.getContext('2d');
 
-//Resize canvas so that it is the exact same size as the window:
+//Resize canvas so that it is the exact same size as the user's window:
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 
 //Code the line styles here:
-ctx.strokeStyle = '#BADASS';
+//MDN has all options listed
+ctx.strokeStyle = '#BADA55';
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
+ctx.lineWidth = 75;
+// ctx.globalCompositeOperation = 'multiply';
 
 //This allows the mouse to move around without drawing, when mouse button is pressed
 //a line begins and when it is released the line ends:
@@ -29,8 +34,55 @@ let isDrawing = false;
 //These 2 lines show where to start and end the line:
 let lastX = 0;
 let lastY = 0;
+let hue = 0;
+let direction = true;
+
+function draw(e){
+  if(!isDrawing) return; //stop the fn from running when they are not moused down
+  console.log(e);
+  ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
+  ctx.beginPath();
+  //Where the line starts from:
+  ctx.moveTo(lastX, lastY);
+
+  //Where the line ends:
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+
+  //ES6 version of these 2 lines are now in the square brackets:
+  // lastX = e.offsetX;
+  // lastY = e.offsetY;
+  [lastX, lastY] = [e.offsetX, e.offsetY]
+  hue++
+  if(hue >= 360){
+    hue = 0;
+  }
+
+  //This is saying if the line drawn is wider than 75 or under 5 the direction of
+  //line thickness will switch to opposite direction and begin to increment or decrement:
+  if(ctx.lineWidth >= 75 || ctx.lineWidth <= 5){
+    direction = !direction;
+  }
+  if(direction){
+    ctx.lineWidth++;
+  } else {
+    ctx.lineWidth--;
+  }
+  
+}
+
+//This allows the begining point to reset to point is is when the mouse is pressed:
+//Needs to be placed before the mousemove
+canvas.addEventListener('mousedown', (e) => {
+  isDrawing = true;
+  [lastX, lastY] = [e.offsetX, e.offsetY]
+});
 
 
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', () => isDrawing = false);
+canvas.addEventListener('mouseout', () => isDrawing = false);
 </script>
 
 <style>
