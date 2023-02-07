@@ -24,7 +24,7 @@ canvas.height = window.innerHeight;
 ctx.strokeStyle = '#BADA55';
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
-ctx.lineWidth = 75;
+ctx.lineWidth = 50;
 // ctx.globalCompositeOperation = 'multiply';
 
 //This allows the mouse to move around without drawing, when mouse button is pressed
@@ -61,7 +61,7 @@ function draw(e){
 
   //This is saying if the line drawn is wider than 75 or under 5 the direction of
   //line thickness will switch to opposite direction and begin to increment or decrement:
-  if(ctx.lineWidth >= 75 || ctx.lineWidth <= 5){
+  if(ctx.lineWidth >= 50 || ctx.lineWidth <= 5){
     direction = !direction;
   }
   if(direction){
